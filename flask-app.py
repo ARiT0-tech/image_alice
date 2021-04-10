@@ -39,6 +39,7 @@ def handle_dialog(res, req):
     user_id = req['session']['user_id']
 
     if req['session']['new']:
+        res['response']['buttons'] = help(res)
         res['response']['text'] = 'Привет! Назови свое имя!'
         sessionStorage[user_id] = {
             'first_name': None
@@ -46,6 +47,7 @@ def handle_dialog(res, req):
         return
 
     if sessionStorage[user_id]['first_name'] is None:
+        res['response']['buttons'] = help(res)
         first_name = get_first_name(req)
         if first_name is None:
             res['response']['text'] = \
@@ -63,6 +65,7 @@ def handle_dialog(res, req):
                 } for city in cities
             ]
     else:
+        res['response']['buttons'] = help(res)
         city = get_city(req)
         if city in cities:
             res['response']['card'] = {}
@@ -73,7 +76,6 @@ def handle_dialog(res, req):
         else:
             res['response']['text'] = \
                 'Первый раз слышу об этом городе. Попробуй еще разок!'
-    res['response']['buttons'] = help(res)
 
 
 def help(res):
