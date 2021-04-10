@@ -56,14 +56,7 @@ def handle_dialog(res, req):
                 'text'] = 'Приятно познакомиться, ' \
                           + first_name.title() \
                           + '. Я - Алиса. Какой город хочешь увидеть?'
-            buttons = cities
-            buttons['Помощь'] = 1
-            res['response']['buttons'] = [
-                {
-                    'title': city.title(),
-                    'hide': True
-                } for city in buttons
-            ]
+            res['response']['buttons'] = helper(cities)
     else:
         city = get_city(req)
         if city in cities:
@@ -78,6 +71,17 @@ def handle_dialog(res, req):
         else:
             res['response']['text'] = \
                 'Первый раз слышу об этом городе. Попробуй еще разок!'
+
+
+def helper(cities):
+    answer = [
+        {
+            'title': city.title(),
+            'hide': True
+        } for city in cities
+    ]
+    answer.append({'title': 'Помощь', 'hide': True})
+    return answer
 
 
 def get_city(req):
