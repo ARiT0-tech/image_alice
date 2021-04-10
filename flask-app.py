@@ -73,6 +73,16 @@ def handle_dialog(res, req):
         else:
             res['response']['text'] = \
                 'Первый раз слышу об этом городе. Попробуй еще разок!'
+    res['response']['buttons'] = help(res)
+
+
+def help(res):
+    names = str()
+    for city in cities:
+        names += city, " "
+    res['response']['text'] = f'Алиса знает только:{names}'
+    text = {'title': 'Помощь', 'hide': True}
+    return text
 
 
 def get_city(req):
