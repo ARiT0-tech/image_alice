@@ -50,9 +50,11 @@ def handle_dialog(res, req):
         if first_name is None:
             if 'Помощь' in req['request']['original_utterance']:
                 res['response']['text'] = 'Алиса понимает тоько существующие и распространенные имена.'
+                res['response']['buttons'] = [{'title': 'Помощь', 'hide': True}]
             else:
                 res['response']['text'] = \
                     'Не расслышала имя. Повтори, пожалуйста!'
+                res['response']['buttons'] = [{'title': 'Помощь', 'hide': True}]
         else:
             sessionStorage[user_id]['first_name'] = first_name
             res['response'][
