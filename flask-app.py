@@ -61,6 +61,7 @@ def handle_dialog(res, req):
                           + '. Я - Алиса. Какой город хочешь увидеть?'
             res['response']['buttons'] = helper(cities)
     else:
+        res['response']['buttons'] = helper(cities)
         if 'Помощь' in req['request']['original_utterance']:
             names = ', '.join(list(cities))
             res['response']['text'] = f'Алиса знает:{names}'
