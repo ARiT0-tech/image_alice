@@ -42,6 +42,7 @@ def handle_dialog(res, req):
         sessionStorage[user_id] = {
             'first_name': None
         }
+        res['response']['buttons'] = [{'title': 'Помощь', 'hide': True}]
         return
 
     if sessionStorage[user_id]['first_name'] is None:
@@ -55,12 +56,7 @@ def handle_dialog(res, req):
                 'text'] = 'Приятно познакомиться, ' \
                           + first_name.title() \
                           + '. Я - Алиса. Какой город хочешь увидеть?'
-            res['response']['buttons'] = [
-                {
-                    'title': city.title(),
-                    'hide': True
-                } for city in cities
-            ]
+            res['response']['buttons'] = helper(cities)
     else:
         city = get_city(req)
         if city in cities:
@@ -84,6 +80,7 @@ def helper(cities):
             'hide': True
         } for city in cities
     ]
+    answer.append({'title': 'Помощь', 'hide': True})
     return answer
 
 
