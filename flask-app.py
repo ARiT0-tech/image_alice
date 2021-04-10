@@ -61,10 +61,10 @@ def handle_dialog(res, req):
                           + '. Я - Алиса. Какой город хочешь увидеть?'
             res['response']['buttons'] = helper(cities)
     else:
-        res['response']['buttons'] = helper(cities)
         if 'Помощь' in req['request']['original_utterance']:
             names = ', '.join(list(cities))
             res['response']['text'] = f'Алиса знает:{names}'
+            res['response']['buttons'] = helper(cities)
         else:
             city = get_city(req)
             if city in cities:
@@ -73,9 +73,11 @@ def handle_dialog(res, req):
                 res['response']['card']['title'] = 'Этот город я знаю.'
                 res['response']['card']['image_id'] = random.choice(cities[city])
                 res['response']['text'] = 'Я угадал!'
+                res['response']['buttons'] = helper(cities)
             else:
                 res['response']['text'] = \
                     'Первый раз слышу об этом городе. Попробуй еще разок!'
+                res['response']['buttons'] = helper(cities)
 
 
 def helper(cities):
