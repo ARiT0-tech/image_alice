@@ -43,6 +43,7 @@ def handle_dialog(res, req):
         sessionStorage[user_id] = {
             'first_name': None
         }
+        res['response']['buttons'] = {'title': 'Помощь', 'hide': True}
         return
 
     if sessionStorage[user_id]['first_name'] is None:
@@ -56,11 +57,13 @@ def handle_dialog(res, req):
                 'text'] = 'Приятно познакомиться, ' \
                           + first_name.title() \
                           + '. Я - Алиса. Какой город хочешь увидеть?'
+            buttons = list(cities)
+            buttons.append('Помощь')
             res['response']['buttons'] = [
                 {
                     'title': city.title(),
                     'hide': True
-                } for city in cities
+                } for city in buttons
             ]
     else:
         city = get_city(req)
@@ -70,6 +73,9 @@ def handle_dialog(res, req):
             res['response']['card']['title'] = 'Этот город я знаю.'
             res['response']['card']['image_id'] = random.choice(cities[city])
             res['response']['text'] = 'Я угадал!'
+        elif city == 'Помощь':
+            names = ', '.join(list(cities))
+            res['response']['text'] = f'Алиса знает:{names}'
         else:
             res['response']['text'] = \
                 'Первый раз слышу об этом городе. Попробуй еще разок!'
