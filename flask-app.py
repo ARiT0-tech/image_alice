@@ -42,7 +42,6 @@ def handle_dialog(res, req):
         sessionStorage[user_id] = {
             'first_name': None
         }
-        res['response']['buttons'] = {'title': 'Помощь', 'hide': True}
         return
 
     if sessionStorage[user_id]['first_name'] is None:
