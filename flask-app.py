@@ -48,6 +48,8 @@ def handle_dialog(res, req):
     if sessionStorage[user_id]['first_name'] is None:
         first_name = get_first_name(req)
         if first_name is None:
+            if req['request']['original_utterance'] == 'Помощь':
+                res['response']['text'] = 'Алиса понимает тоько существующие и распространенные имена.'
             res['response']['text'] = \
                 'Не расслышала имя. Повтори, пожалуйста!'
         else:
@@ -58,19 +60,20 @@ def handle_dialog(res, req):
                           + '. Я - Алиса. Какой город хочешь увидеть?'
             res['response']['buttons'] = helper(cities)
     else:
-        city = get_city(req)
-        if city in cities:
-            res['response']['card'] = {}
-            res['response']['card']['type'] = 'BigImage'
-            res['response']['card']['title'] = 'Этот город я знаю.'
-            res['response']['card']['image_id'] = random.choice(cities[city])
-            res['response']['text'] = 'Я угадал!'
-        elif city == 'Помощь':
+        if req['request']['original_utterance'] == 'Помощь':
             names = ', '.join(list(cities))
             res['response']['text'] = f'Алиса знает:{names}'
         else:
-            res['response']['text'] = \
-                'Первый раз слышу об этом городе. Попробуй еще разок!'
+            city = get_city(req)
+            if city in cities:
+                res['response']['card'] = {}
+                res['response']['card']['type'] = 'BigImage'
+                res['response']['card']['title'] = 'Этот город я знаю.'
+                res['response']['card']['image_id'] = random.choice(cities[city])
+                res['response']['text'] = 'Я угадал!'
+            else:
+                res['response']['text'] = \
+                    'Первый раз слышу об этом городе. Попробуй еще разок!'
 
 
 def helper(cities):
