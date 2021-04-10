@@ -37,6 +37,7 @@ def main():
 
 def handle_dialog(res, req):
     user_id = req['session']['user_id']
+    res['response']['buttons'] = help()
     if req['session']['new']:
         res['response']['text'] = 'Привет! Назови свое имя!'
         sessionStorage[user_id] = {
