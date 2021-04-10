@@ -48,10 +48,11 @@ def handle_dialog(res, req):
     if sessionStorage[user_id]['first_name'] is None:
         first_name = get_first_name(req)
         if first_name is None:
-            if req['request']['original_utterance'] == 'Помощь':
+            if 'Помощь' in req['request']['original_utterance']:
                 res['response']['text'] = 'Алиса понимает тоько существующие и распространенные имена.'
-            res['response']['text'] = \
-                'Не расслышала имя. Повтори, пожалуйста!'
+            else:
+                res['response']['text'] = \
+                    'Не расслышала имя. Повтори, пожалуйста!'
         else:
             sessionStorage[user_id]['first_name'] = first_name
             res['response'][
@@ -60,7 +61,7 @@ def handle_dialog(res, req):
                           + '. Я - Алиса. Какой город хочешь увидеть?'
             res['response']['buttons'] = helper(cities)
     else:
-        if req['request']['original_utterance'] == 'Помощь':
+        if 'Помощь' in req['request']['original_utterance']:
             names = ', '.join(list(cities))
             res['response']['text'] = f'Алиса знает:{names}'
         else:
