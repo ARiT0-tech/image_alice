@@ -56,8 +56,8 @@ def handle_dialog(res, req):
                 'text'] = 'Приятно познакомиться, ' \
                           + first_name.title() \
                           + '. Я - Алиса. Какой город хочешь увидеть?'
-            buttons = list(cities)
-            buttons.append('Помощь')
+            buttons = cities
+            buttons['Помощь'] = 1
             res['response']['buttons'] = [
                 {
                     'title': city.title(),
