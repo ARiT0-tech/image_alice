@@ -80,14 +80,6 @@ def handle_dialog(res, req):
                 'Первый раз слышу об этом городе. Попробуй еще разок!'
 
 
-def help():
-    names = str()
-    for city in cities:
-        names += city, " "
-    text = {'title': 'Помощь', 'hide': True}
-    return text
-
-
 def get_city(req):
     for entity in req['request']['nlu']['entities']:
         if entity['type'] == 'YANDEX.GEO':
