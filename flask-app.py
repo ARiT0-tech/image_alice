@@ -80,7 +80,6 @@ def helper(cities):
             'hide': True
         } for city in cities
     ]
-    answer.append({'title': 'Помощь', 'hide': True})
     return answer
 
 
